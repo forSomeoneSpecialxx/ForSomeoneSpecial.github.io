@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Lalti! 🐾🎂</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffe4e6;
+            background-image: linear-gradient(135deg, #fef3c7 0%, #ffdfd6 100%);
+            overflow: hidden; 
+        }
+
+        /* Confetti Container */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            perspective: 1000px; 
+        }
+
+        /* Confetti Piece - Square and 3D */
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: currentColor;
+            opacity: 0;
+            border-radius: 0;
+            transform-style: preserve-3d;
+            backface-visibility: hidden; 
+            animation-fill-mode: forwards;
+        }
+
+        /* Keyframes for Left Blast (from bottom-left towards top-right) */
+        @keyframes blast-left-confetti {
+            0% {
+                opacity: 0;
+                transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+            }
+            10% {
+                opacity: 1; 
+            }
+            100% {
+                opacity: 0; 
+                transform: translate(120vw, -100vh) rotateX(1080deg) rotateY(720deg) translateZ(100px);
+            }
+        }
+
+        /* Keyframes for Right Blast (from bottom-right towards top-left) */
+        @keyframes blast-right-confetti {
+            0% {
+                opacity: 0;
+                transform: translateZ(0) rotateX(0deg) rotateY(0deg);
+            }
+            10% {
+                opacity: 1; 
+            }
+            100% {
+                opacity: 0; 
+                transform: translate(-120vw, -100vh) rotateX(1080deg) rotateY(720deg) translateZ(100px);
+            }
+        }
+
+        .confetti.blast-left { animation-name: blast-left-confetti; }
+        .confetti.blast-right { animation-name: blast-right-confetti; }
+
+        /* Card sparkle effect */
+        .card-sparkle {
+            animation: sparkle-glow 0.6s ease-out;
+        }
+        @keyframes sparkle-glow {
+            0% { box-shadow: 0 0 10px #fff; }
+            50% { box-shadow: 0 0 30px #fcd34d, 0 0 60px #fbbf24; }
+            100% { box-shadow: 0 0 10px #fff; }
+        }
+
+        /* Confetti colors */
+        .confetti-yellow { color: #fcd34d; }
+        .confetti-pink { color: #f472b6; }
+        .confetti-blue { color: #60a5fa; }
+        .confetti-purple { color: #a78bfa; }
+        .confetti-green { color: #4ade80; }
+
+        /* SVG Streamer Decoration (to look like party streamers) */
+        .streamer-svg {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15px; /* Height of the streamer area */
+            z-index: 10;
+        }
+        .streamer-left { left: 0; }
+        .streamer-right { right: 0; transform: scaleX(-1); }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Confetti layer -->
+    <div id="confetti-container" class="confetti-container"></div>
+    
+    <!-- Top left corner streamer (SVG) -->
+    <div class="streamer-svg streamer-left top-0 left-0 hidden sm:block">
+        <svg viewBox="0 0 500 15" preserveAspectRatio="none" class="w-full h-full">
+            <defs>
+                <pattern id="streamerPattern" x="0" y="0" width="10" height="15" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="5" height="15" fill="#fcd34d"/>
+                    <rect x="5" y="0" width="5" height="15" fill="#f472b6"/>
+                </pattern>
+            </defs>
+            <rect x="0" y="0" width="500" height="15" fill="url(#streamerPattern)"/>
+            <path d="M0 15 L 25 0 L 50 15 L 75 0 L 100 15 L 125 0 L 150 15 L 175 0 L 200 15 L 225 0 L 250 15 L 275 0 L 300 15 L 325 0 L 350 15 L 375 0 L 400 15 L 425 0 L 450 15 L 475 0 L 500 15" fill="#60a5fa" opacity="0.8"/>
+        </svg>
+    </div>
+
+    <!-- Main Birthday Card -->
+    <div id="birthday-card" class="bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full text-center border-4 border-yellow-500 transform transition duration-500 hover:scale-[1.03] relative z-20">
+
+        <div class="mb-6">
+            <!-- Add a balloon and gift emoji -->
+            <span class="text-4xl absolute -top-8 -left-4 transform rotate-12">🎈</span>
+            <span class="text-3xl absolute -top-4 -right-4 transform -rotate-12">🎁</span>
+            <span id="lalti-emoji" class="text-8xl md:text-9xl transition-all duration-300 transform inline-block">🐾</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold text-pink-600 mb-2 leading-tight">
+            Happy Birthday, Lalti! 🎂
+        </h1>
+        <p class="text-xl md:text-2xl font-semibold text-yellow-700 mb-8 flex items-center justify-center space-x-2">
+            <span>🎉</span> Our favorite furry friend is another year older! <span>🥳</span>
+        </p>
+
+        <div class="bg-indigo-50 p-4 rounded-xl mb-8 border border-indigo-200 shadow-inner">
+            <p class="text-gray-700 italic">
+                "To the best dog who always brings smiles, cuddles, and endless fun—we hope your day is filled with **extra treats**, long naps, and all the head scratches you can handle. We love you!"
+            </p>
+        </div>
+
+        <button id="surprise-button" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-xl transition duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-300 flex items-center justify-center mx-auto space-x-2">
+            <span>🎉 Give Lalti a Treat! 🦴</span>
+        </button>
+
+        <div id="surprise-message" class="mt-6 p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-lg text-yellow-800 font-semibold opacity-0 transition-opacity duration-500 transform scale-90 shadow-md">
+            WOOF WOOF! (That means "Thank you for the treat!")
+        </div>
+
+    </div>
+
+    <script>
+        const surpriseButton = document.getElementById('surprise-button');
+        const surpriseMessage = document.getElementById('surprise-message');
+        const laltiEmoji = document.getElementById('lalti-emoji');
+        const birthdayCard = document.getElementById('birthday-card');
+        const confettiContainer = document.getElementById('confetti-container');
+
+        let isSurpriseRevealed = false;
+        const confettiColors = [
+            'confetti-yellow', 'confetti-pink', 'confetti-blue', 'confetti-purple', 'confetti-green'
+        ];
+        
+        const ANIMATION_DURATION = 3.5; 
+
+        function createConfettiBlast(fromLeft = true) {
+            const confettiCount = 35; 
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                const randomColorClass = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                confetti.classList.add('confetti', fromLeft ? 'blast-left' : 'blast-right', randomColorClass);
+                
+                // Randomize size
+                const size = Math.random() * 8 + 8;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Set initial position at the bottom sides
+                if (fromLeft) {
+                    confetti.style.left = `${Math.random() * 10 - 5}vw`;
+                } else {
+                    // We use right positioning for the right blast for cleaner CSS calc
+                    confetti.style.right = `${Math.random() * 10 - 5}vw`;
+                }
+                confetti.style.bottom = `${Math.random() * 5 - 5}vh`;
+
+                // Stagger start times and randomize duration
+                confetti.style.animationDelay = `${Math.random() * ANIMATION_DURATION * 0.4}s`;
+                confetti.style.animationDuration = `${ANIMATION_DURATION + Math.random() * 1}s`;
+
+                confettiContainer.appendChild(confetti);
+                
+                // Clean up the DOM after animation completes
+                confetti.addEventListener('animationend', () => {
+                    if (confetti.parentNode === confettiContainer) {
+                        confettiContainer.removeChild(confetti);
+                    }
+                }, { once: true });
+            }
+        }
+
+        surpriseButton.addEventListener('click', () => {
+            if (!isSurpriseRevealed) {
+                // 1. Reveal the message
+                surpriseMessage.classList.remove('opacity-0', 'scale-90');
+                surpriseMessage.classList.add('opacity-100', 'scale-100');
+                
+                // 2. Add sparkle to the card
+                birthdayCard.classList.add('card-sparkle');
+                birthdayCard.addEventListener('animationend', () => {
+                    birthdayCard.classList.remove('card-sparkle');
+                }, { once: true });
+
+                // 3. Change emoji and trigger confetti blasts
+                laltiEmoji.textContent = '🥳'; 
+                createConfettiBlast(true); 
+                createConfettiBlast(false); 
+
+                // 4. Update the button
+                surpriseButton.textContent = '🥳 Party Time! 🥳';
+                surpriseButton.classList.remove('bg-pink-500', 'hover:bg-pink-600', 'focus:ring-pink-300');
+                surpriseButton.classList.add('bg-green-500', 'hover:bg-green-600', 'focus:ring-green-300');
+
+                isSurpriseRevealed = true;
+
+            } else {
+                // If already revealed, show a gentle confirmation and drop more confetti
+                const originalText = surpriseButton.textContent;
+                surpriseButton.textContent = '🦴 Another treat given! 🥳';
+                
+                // Trigger another small blast
+                createConfettiBlast(true);
+                createConfettiBlast(false);
+
+                // Briefly flash Lalti's emoji
+                laltiEmoji.classList.add('hover:rotate-6');
+                setTimeout(() => {
+                    surpriseButton.textContent = originalText;
+                    laltiEmoji.classList.remove('hover:rotate-6');
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
